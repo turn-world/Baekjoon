@@ -3,50 +3,43 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Main {
-
-    /*
-        false : 소수
-        range : 0 ~ 10000
-    */
-    public static boolean[] prime = new boolean[10001];
+    public static boolean[] prime = new boolean [10001];
 
     public static void main(String[] args) throws IOException {
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        //BufferedReader BufferedWriter
-        //InputStreamReader 문자(열이 아님)를 입력 그대로 받아들이게 해줌 10진수 utf-16으로 받아들이게 되면 한글이 깨짐
-        //그래서 buffer에 한꺼번에 담아서 처리하는 거임
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
 
         get_prime();
 
-        int T = Integer.parseInt(br.readLine());	// 테스트케이스
+        int T  = Integer.parseInt(in.readLine());
 
-        while (T-- > 0) {
-            int n = Integer.parseInt(br.readLine());
-            int first_partition = n / 2;
-            int second_partition = n / 2;
+        while (T-- > 0){
+            int a = Integer.parseInt(in.readLine());
+            int first_partion = a/2;
+            int second_partion = a/2;
 
-            while (true) {
-
-                // 두 파티션이 모두 소수일 경우
-                if (!prime[first_partition] && !prime[second_partition]) {
-                    sb.append(first_partition).append(' ').append(second_partition).append('\n');
+            while (true){
+                if(!prime[first_partion] && !prime[second_partion]){
+                    sb.append(first_partion).append(' ').append(second_partion).append('\n');
                     break;
                 }
-                first_partition--;
-                second_partition++;
+                first_partion--;
+                second_partion++;
             }
         }
         System.out.print(sb);
     }
-    public static void get_prime() {
+    // 에라토스테네스의 채
+    public static void get_prime(){
         prime[0] = prime[1] = true;
 
-        for (int i = 2; i <= Math.sqrt(prime.length); i++) {
-            if (prime[i])
+        for( int i = 2; i <= Math.sqrt(prime.length);i++){
+            // 이미 체크된 배열이면 다음 반복문으로 skip
+            if(prime[i])
                 continue;
-            for (int j = i * i; j < prime.length; j += i) {
+            // i의 배수들을 걸러주기 위한 반복문
+            // true일 경우 소수가 아니다.
+            for(int j = i * i; j < prime.length; j +=i){
                 prime[j] = true;
             }
         }
